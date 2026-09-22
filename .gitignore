@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+.next/
+dist/
+build/
+
+# .NET build output
+bin/
+obj/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+
+# User datasets and generated outputs
+data/
+uploads/
+outputs/
+*.dcm
+
+# Test and tool output
+coverage/
+playwright-report/
+test-results/
+
+# IDE and OS files
+.vs/
+.vscode/*.code-snippets
+*.user
+*.suo
+Thumbs.db
+Desktop.ini
