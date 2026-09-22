@@ -1,0 +1,6 @@
+@EngiVue.Api_HostAddress = http://localhost:5029
+
+GET {{EngiVue.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
