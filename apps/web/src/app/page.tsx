@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, type ChangeEvent } from "react";
+
 const topNavigation = ["Projects", "Models", "Reports", "Settings"];
 
 const workspaceTools = [
@@ -10,6 +14,20 @@ const workspaceTools = [
 ];
 
 export default function Home() {
+  const [selectedImageName, setSelectedImageName] = useState<string | null>(
+    null,
+  );
+
+  function handleImageSelection(event: ChangeEvent<HTMLInputElement>) {
+    const selectedFile = event.target.files?.[0];
+
+    if (!selectedFile) {
+      return;
+    }
+
+    setSelectedImageName(selectedFile.name);
+  }
+
   return (
     <main className="min-h-screen bg-engivue-background text-engivue-text">
       <header className="border-b border-engivue-copper bg-engivue-surface">
@@ -112,25 +130,53 @@ export default function Home() {
             </div>
 
             <div className="flex min-h-[480px] items-center justify-center bg-[#090b0c] p-6">
-              <div className="max-w-md text-center">
-                <p className="mb-2 text-xl font-semibold">Start an inspection</p>
-                <p className="mb-6 text-sm leading-6 text-engivue-text-muted">
-                  Upload an industrial image to measure dimensions, identify
-                  defects, and generate inspection results.
-                </p>
+  <input
+    id="image-upload"
+    type="file"
+    accept=".png,.jpg,.jpeg,.bmp,.tif,.tiff,image/png,image/jpeg,image/bmp,image/tiff"
+    className="hidden"
+    onChange={handleImageSelection}
+  />
 
-                <button
-                  type="button"
-                  className="rounded-md bg-engivue-copper px-5 py-3 text-sm font-semibold text-engivue-background transition-colors hover:bg-engivue-copper-hover"
-                >
-                  Upload Image
-                </button>
+  {selectedImageName ? (
+    <div className="max-w-md text-center">
+      <p className="mb-2 text-xl font-semibold text-engivue-copper">
+        Image ready for inspection
+      </p>
 
-                <p className="mt-4 text-xs text-engivue-text-muted">
-                  PNG, JPG, BMP and TIFF supported
-                </p>
-              </div>
-            </div>
+      <p className="mb-6 break-all text-sm text-engivue-text-muted">
+        {selectedImageName}
+      </p>
+
+      <label
+        htmlFor="image-upload"
+        className="cursor-pointer rounded-md border border-engivue-copper px-5 py-3 text-sm font-semibold text-engivue-copper transition-colors hover:bg-engivue-copper-dark hover:text-engivue-text"
+      >
+        Choose another image
+      </label>
+    </div>
+  ) : (
+    <div className="max-w-md text-center">
+      <p className="mb-2 text-xl font-semibold">Start an inspection</p>
+
+      <p className="mb-6 text-sm leading-6 text-engivue-text-muted">
+        Upload an industrial image to measure dimensions, identify defects,
+        and generate inspection results.
+      </p>
+
+      <label
+        htmlFor="image-upload"
+        className="cursor-pointer rounded-md bg-engivue-copper px-5 py-3 text-sm font-semibold text-engivue-background transition-colors hover:bg-engivue-copper-hover"
+      >
+        Upload Image
+      </label>
+
+      <p className="mt-4 text-xs text-engivue-text-muted">
+        PNG, JPG, BMP and TIFF supported
+      </p>
+    </div>
+  )}
+</div>
           </div>
         </section>
 
@@ -163,7 +209,13 @@ export default function Home() {
             <p className="mb-2 text-xs font-semibold tracking-wider text-engivue-text-muted">
               INSPECTION STATUS
             </p>
-            <p className="text-sm">Waiting for image</p>
+           <p
+  className={`text-sm ${
+    selectedImageName ? "text-engivue-copper" : ""
+  }`}
+>
+  {selectedImageName ? "Image ready for inspection" : "Waiting for image"}
+</p>
           </div>
 
           <button
@@ -175,6 +227,7 @@ export default function Home() {
 
           <button
             type="button"
+            onClick={() => setSelectedImageName(null)}
             className="mt-3 w-full rounded-md border border-engivue-copper px-4 py-3 text-sm font-medium text-engivue-copper transition-colors hover:bg-engivue-copper-dark hover:text-engivue-text"
           >
             Reset
