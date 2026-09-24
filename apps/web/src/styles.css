@@ -1,0 +1,43 @@
+@import 'tailwindcss';
+
+:root {
+  --engivue-background: #0e1112;
+  --engivue-surface: #151a1c;
+  --engivue-surface-elevated: #1b2224;
+  --engivue-border: #30383a;
+  --engivue-text: #f3efe7;
+  --engivue-text-muted: #b7b1a8;
+  --engivue-copper: #e8752d;
+  --engivue-copper-hover: #ff9a52;
+  --engivue-copper-dark: #9f431c;
+  --engivue-pass: #4ade5b;
+  --engivue-fail: #ff5a5f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--engivue-background);
+  color: var(--engivue-text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: var(--engivue-copper);
+  color: var(--engivue-background);
+}

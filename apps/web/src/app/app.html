@@ -1,0 +1,132 @@
+<main class="app-shell">
+  <header class="topbar">
+    <div class="topbar__left">
+      <a class="brand" href="/" aria-label="EngiVue home">
+        <span class="brand__copper">Engi</span><span>Vue</span>
+      </a>
+
+      <span class="topbar__divider" aria-hidden="true"></span>
+      <p class="workspace-name">Workbench</p>
+
+      <nav class="top-navigation" aria-label="Main navigation">
+        @for (item of topNavigation; track item) {
+          <button type="button" class="top-navigation__item">{{ item }}</button>
+        }
+      </nav>
+    </div>
+
+    <div class="operator">
+      <div class="operator__details">
+        <span>Operator</span>
+        <strong>Swasthik</strong>
+      </div>
+      <span class="operator__avatar" aria-hidden="true">S</span>
+    </div>
+  </header>
+
+  <div class="workbench-layout">
+    <aside class="tool-sidebar">
+      <p class="eyebrow">WORKBENCH TOOLS</p>
+
+      <nav class="tool-navigation" aria-label="Inspection tools">
+        @for (tool of workspaceTools; track tool) {
+          <button
+            type="button"
+            class="tool-navigation__item"
+            [class.tool-navigation__item--active]="tool === activeTool"
+          >
+            {{ tool }}
+          </button>
+        }
+      </nav>
+
+      <p class="sidebar-message">
+        SEE<br />MEASURE<br />SOLVE<br />FURTHER
+      </p>
+    </aside>
+
+    <section class="viewer-region" aria-label="Inspection viewer">
+      <div class="viewer-panel">
+        <div class="viewer-toolbar">
+          <p class="breadcrumb">
+            Projects <span>›</span> New inspection
+          </p>
+
+          <div class="viewer-toolbar__actions">
+            <button type="button">100%</button>
+            <button type="button">Fullscreen</button>
+          </div>
+        </div>
+
+        <div class="viewer-canvas">
+          <input
+            #imageUpload
+            id="image-upload"
+            type="file"
+            accept=".png,.jpg,.jpeg,.bmp,.tif,.tiff,image/png,image/jpeg,image/bmp,image/tiff"
+            hidden
+            (change)="selectImage($event)"
+          />
+
+          @if (selectedImageName(); as imageName) {
+            <div class="viewer-empty-state">
+              <p class="viewer-empty-state__title viewer-empty-state__title--ready">
+                Image ready for inspection
+              </p>
+              <p class="viewer-empty-state__file-name">{{ imageName }}</p>
+              <button type="button" class="button button--secondary" (click)="imageUpload.click()">
+                Choose another image
+              </button>
+            </div>
+          } @else {
+            <div class="viewer-empty-state">
+              <p class="viewer-empty-state__title">Start an inspection</p>
+              <p class="viewer-empty-state__description">
+                Upload an industrial image to measure dimensions, identify defects,
+                and generate inspection results.
+              </p>
+              <button type="button" class="button button--primary" (click)="imageUpload.click()">
+                Upload Image
+              </button>
+              <p class="viewer-empty-state__hint">PNG, JPG, BMP and TIFF supported</p>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <aside class="parameters-panel">
+      <h1>Inspection Parameters</h1>
+
+      <label class="form-field" for="threshold">
+        <span>Detection Threshold</span>
+        <input id="threshold" type="number" value="0.65" step="0.05" />
+      </label>
+
+      <label class="form-field" for="inspection-mode">
+        <span>Inspection Mode</span>
+        <select id="inspection-mode">
+          <option>Surface inspection</option>
+          <option>Dimensional measurement</option>
+          <option>Defect detection</option>
+        </select>
+      </label>
+
+      <div class="inspection-status">
+        <p class="eyebrow">INSPECTION STATUS</p>
+        @if (selectedImageName()) {
+          <p class="inspection-status__value inspection-status__value--ready">
+            Image ready for inspection
+          </p>
+        } @else {
+          <p class="inspection-status__value">Waiting for image</p>
+        }
+      </div>
+
+      <button type="button" class="button button--primary button--full">Run Workflow</button>
+      <button type="button" class="button button--secondary button--full" (click)="resetInspection()">
+        Reset
+      </button>
+    </aside>
+  </div>
+</main>
